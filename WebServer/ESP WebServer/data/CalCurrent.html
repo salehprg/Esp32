@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Calibration Current</title>
+        <link rel="stylesheet" href="./css/bootstarp.min.css">
+        <link rel="stylesheet" href="./css/style.css">
+        <script src="./js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <div class="masthead p-5 bg3 text-center">
+            <div class="row">
+                <h2>Current Channels Calibrations</h2>
+                <h6>Enter actual value for any current channel then press calibrate button</h6>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <table class="table table-responsive table-responsive-md table-hover table-dark">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Read Value</th>
+                            <th scope="col">Actual Value</th>
+                            <th scope="col">Calibrate</th>
+                            <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {DATA}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function sendData(id)
+            {
+                document.getElementById("loading" + id).classList.remove("visually-hidden");
+                document.getElementById("done" + id).classList.add("visually-hidden");
+                document.getElementById("error" + id).classList.add("visually-hidden");
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onerror = function() {
+                    document.getElementById("loading" + id).classList.add("visually-hidden");
+                    document.getElementById("done" + id).classList.add("visually-hidden");
+                    document.getElementById("error" + id).classList.remove("visually-hidden");
+                };
+                xhttp.ontimeout = function() {
+                    document.getElementById("loading" + id).classList.add("visually-hidden");
+                    document.getElementById("done" + id).classList.add("visually-hidden");
+                    document.getElementById("error" + id).classList.remove("visually-hidden");
+                };
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) 
+                    {
+                        document.getElementById("loading" + id).classList.add("visually-hidden");
+                        document.getElementById("done" + id).classList.remove("visually-hidden");
+                        document.getElementById("error" + id).classList.add("visually-hidden");
+                    }
+                    if (this.readyState == 4 && this.status == 400) 
+                    {
+                        document.getElementById("loading" + id).classList.add("visually-hidden");
+                        document.getElementById("done" + id).classList.add("visually-hidden");
+                        document.getElementById("error" + id).classList.remove("visually-hidden");
+                    }
+                };
+
+                var value = document.getElementById("inpt" + id).value
+                console.log(value);
+
+                xhttp.open("POST", "./calibratecurrent", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send(id + "\n" + value); 
+                
+            }
+        </script>
+    </body>
+</html>

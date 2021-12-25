@@ -1,0 +1,17 @@
+<tr>
+    <th class="col-1" scope="row">{ID}</th>
+    <td class="col-2">{VALUE}</td>
+    <td class="col-2">
+        <input id="inpt{ID}" class="form-control h-25 p-1 " type="number"> 
+    </td>
+    <td class="col-3 justify-content-center">
+        <input id="btn{ID}" class="btn btn-success h-25 p-1" type="submit" value="Calibrate" onclick="sendData('{ID}')" > 
+    </td>
+    <td class="col-2 justify-content-center">
+        <span id="done{ID}" class="badge bg-success visually-hidden">Done !</span>
+        <span id="error{ID}" class="badge bg-danger visually-hidden">Failed !</span>
+        <div id="loading{ID}" class="spinner-border text-info visually-hidden" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </td>
+</tr>
